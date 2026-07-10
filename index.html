@@ -6,160 +6,86 @@
 <title>Binär Entschlüssler</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
 body{
-    background:#0f172a;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-}
-
-.card{
-    width:90%;
-    max-width:900px;
-    background:#1e293b;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 25px rgba(0,0,0,.4);
-}
-
-h1{
-    text-align:center;
+    font-family:Arial,sans-serif;
+    background:#111;
     color:white;
-    margin-bottom:10px;
-}
-
-p{
     text-align:center;
-    color:#cbd5e1;
-    margin-bottom:20px;
+    padding:40px;
 }
 
 textarea{
-    width:100%;
+    width:90%;
+    max-width:900px;
     height:220px;
-    border:none;
-    outline:none;
-    resize:vertical;
-    border-radius:10px;
-    padding:15px;
-    font-size:18px;
-    background:#0f172a;
+    background:#222;
     color:white;
-}
-
-.buttons{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
+    border:1px solid #444;
+    border-radius:10px;
+    padding:10px;
+    font-size:18px;
 }
 
 button{
-    flex:1;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:17px;
-    background:#3b82f6;
-    color:white;
-    transition:.2s;
-}
-
-button:hover{
-    background:#2563eb;
-}
-
-.output{
     margin-top:20px;
-    background:#0f172a;
+    padding:12px 30px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#output{
+    margin-top:30px;
+    background:#222;
+    padding:20px;
     border-radius:10px;
-    padding:15px;
-    min-height:120px;
-    color:#22c55e;
+    word-wrap:break-word;
     font-size:20px;
-    white-space:pre-wrap;
-    word-break:break-word;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="card">
+<h1>Binär Entschlüssler</h1>
 
-<h1>🔓 Binär Entschlüssler</h1>
+<p>0️⃣ und 1️⃣ oder normale 0 und 1 einfügen.</p>
 
-<p>Füge Binärzahlen oder 0️⃣ / 1️⃣ Emojis ein.</p>
+<textarea id="input"></textarea>
 
-<textarea id="input" placeholder="01001000 01101001
-oder
-0️⃣1️⃣0️⃣0️⃣1️⃣0️⃣0️⃣0️⃣"></textarea>
+<br>
 
-<div class="buttons">
-<button onclick="decodeBinary()">Entschlüsseln</button>
-<button onclick="copyText()">Kopieren</button>
-<button onclick="clearAll()">Leeren</button>
-</div>
+<button onclick="decode()">Entschlüsseln</button>
 
-<div class="output" id="output">
-Hier erscheint der entschlüsselte Text...
-</div>
-
-</div>
+<div id="output"></div>
 
 <script>
+function decode(){
 
-function decodeBinary(){
+    let text=document.getElementById("input").value;
 
-    let input=document.getElementById("input").value;
-
-    input=input
+    text=text
         .replace(/0️⃣/g,"0")
         .replace(/1️⃣/g,"1");
 
-    input=input.replace(/[^01]/g,"");
+    text=text.replace(/[^01]/g,"");
 
-    let text="";
+    let result="";
 
-    for(let i=0;i<input.length;i+=8){
+    for(let i=0;i<text.length;i+=8){
 
-        let byte=input.substring(i,i+8);
+        let byte=text.substring(i,i+8);
 
         if(byte.length===8){
-            text+=String.fromCharCode(parseInt(byte,2));
+
+            result+=String.fromCharCode(parseInt(byte,2));
+
         }
 
     }
 
-    document.getElementById("output").textContent=text || "Kein gültiger Binärcode gefunden.";
+    document.getElementById("output").textContent=result;
 
 }
-
-function copyText(){
-
-    navigator.clipboard.writeText(
-        document.getElementById("output").textContent
-    );
-
-    alert("Text kopiert!");
-
-}
-
-function clearAll(){
-
-    document.getElementById("input").value="";
-    document.getElementById("output").textContent="Hier erscheint der entschlüsselte Text...";
-
-}
-
 </script>
 
 </body>
